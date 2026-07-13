@@ -772,9 +772,18 @@ namespace KerbinHeavyIndustries {
 			this.flagname = flagname;
 			this.thumbPath = thumbPath;
 
+			Debug.LogWarning($"[ELBuildControl] LoadCraft: {filename}");
 			if (!File.Exists (filename)) {
-				Debug.LogWarning ($"File '{filename}' does not exist");
-				return;
+				Debug.LogWarning ($"[ELBuildControl] File '{filename}' does not exist");
+
+                var rootPath = EL_Utils.ApplicationRootPath;
+                filename = Path.Combine(rootPath, filename.TrimStart('/'));
+
+                if (!File.Exists(filename))
+				{
+					Debug.LogWarning($"File '{filename}' does not exist after combining with ApplicationRootPath");
+					return;
+				}
 			}
 
 			string craftText = File.ReadAllText(filename);

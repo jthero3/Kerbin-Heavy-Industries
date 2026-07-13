@@ -308,8 +308,14 @@ namespace KerbinHeavyIndustries {
 				rootLen += 1;
 			}
 
-			Debug.Log ($"[ELCraftSelector] ScanTree: {path} {rootLen} {directory.FullName.Length}");
-			var d = new DirItem(directory.Name, directory.FullName.Substring(rootLen), dirs.Length > 0, stock, type);
+			if (rootLen != directory.FullName.Length)
+			{
+				rootLen = directory.FullName.Length;
+			}
+			
+            Debug.Log($"[ELCraftSelector] ScanTree: dir.substring {directory.FullName.Substring(rootLen)}");
+
+            var d = new DirItem(directory.Name, directory.FullName.Substring(rootLen), dirs.Length > 0, stock, type);
 			var t = new TreeView.TreeItem (d, d => (d as DirItem).name, d => (d as DirItem).hasSubdirs, level);
 			dirTreeItems.Add (t);
 

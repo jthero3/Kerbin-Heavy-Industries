@@ -68,11 +68,29 @@ namespace KerbinHeavyIndustries {
 		{
 			fullPath = craftPath;
 			info = new CraftProfileInfo ();
-			if (File.Exists (metaPath)) {
-				var node = ConfigNode.Load (metaPath);
+			if (File.Exists (metaPath))
+            {
+                var node = ConfigNode.Load (metaPath);
 				info.Load (node);
-			} else {
-				var node = ConfigNode.Load (craftPath);
+			}
+            else
+            {
+                Debug.Log($"[ELCraftItem] Craft path: {craftPath}");
+                if (!File.Exists(craftPath))
+                {
+                    Debug.LogWarning($"[ELCraftItem] File '{craftPath}' does not exist");
+
+					var rootPath = EL_Utils.ApplicationRootPath;
+                    craftPath = Path.Combine(rootPath, craftPath.TrimStart('/'));
+                    Debug.Log($"[ELCraftItem] LoadCraft: Combined {craftPath}");
+                    if (!File.Exists(craftPath))
+                    {
+                        Debug.LogWarning($"[ELCraftItem] File '{craftPath}' does not exist after combining with ApplicationRootPath");
+                        return;
+                    }
+                }
+
+                var node = ConfigNode.Load (craftPath);
 				info.LoadDetailsFromCraftFile (node, craftPath);
 				this.node = node;
 			}
