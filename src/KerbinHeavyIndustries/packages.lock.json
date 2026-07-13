@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "dependencies": {
+    ".NETFramework,Version=v4.8": {
+      "KSPBuildTools": {
+        "type": "Direct",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "Cw3bES8zmfApzecdBLAsKyDVOgNqmjYruhyBq/u1XnO8N2ypN03iSW0OdN3dYoS+huboNffvDnf0u+diPagrJA==",
+        "dependencies": {
+          "JsonPoke": "1.2.0"
+        }
+      },
+      "MinVer": {
+        "type": "Direct",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "+/SsmiySsXJlvQLCGBqaZKNVt3s/Y/HbAdwtop7Km2CnuZbaScoqkWJEBQ5Cy9ebkn6kCYKrHsXgwrFdTgcb3g=="
+      },
+      "JsonPoke": {
+        "type": "Transitive",
+        "resolved": "1.2.0",
+        "contentHash": "AW7iyzudTA4VzW3pYjTzy+MucrF+wUWKQulqx/EnqvlqLwVseNk2nqlWpTRySItQCgBv0w7o/dqTN4wj0tWJhA=="
+      }
+    }
+  }
+}

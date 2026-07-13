@@ -1,0 +1,9 @@
+{
+  "NAME": "KerbinHeavyIndustries",
+  "VERSION": "0.0.0.0",
+  "URL": "https://github.com/jthero3/Kerbin-Heavy-Industries/releases/latest/download/KerbinHeavyIndustries.version",
+  "DOWNLOAD": "https://github.com/jthero3/Kerbin-Heavy-Industries/releases",
+  "KSP_VERSION": "1.12",
+  "KSP_VERSION_MIN": "1.8",
+  "KSP_VERSION_MAX": "1.12"
+}

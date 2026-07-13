@@ -1,0 +1,1020 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>launchpad</name>
+    </assembly>
+    <members>
+        <member name="T:KerbinHeavyIndustries.CompatibilityChecker">
+             This utility displays a warning with a list of mods that determine themselves
+             to be incompatible with the current running version of Kerbal Space Program.
+            
+             See this forum thread for details:
+             http://forum.kerbalspaceprogram.com/threads/65395-Voluntarily-Locking-Plugins-to-a-Particular-KSP-Version
+        </member>
+        <member name="T:KerbinHeavyIndustries.ELEditor.UpdateDelegate">
+            Delegate for Update and normal Start
+        </member>
+        <member name="T:KerbinHeavyIndustries.ELEditor.StartDelegate">
+            Delegate for coroutine Start
+        </member>
+        <member name="F:KerbinHeavyIndustries.ELEditor.fakeEditor">
+            Disabled instance of the VAB/SPH editor so that part modules can
+            get at \a ship when they need to.
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.CreateUpdateDelegate(UnityEngine.MonoBehaviour,System.Reflection.MethodInfo)">
+            Simple wrapper to create a delegate for update or normal Start
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.CreateStartDelegate(UnityEngine.MonoBehaviour,System.Reflection.MethodInfo)">
+            Simple wrapper to create a delegate for coroutine Start
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.FindStart(UnityEngine.MonoBehaviour)">
+            Find the start method and add it to the appropriate list.
+            
+             Unity supports coroutine Start() (return IEnumerator instead of void)
+             so need to check the return time.
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.FindUpdater(UnityEngine.MonoBehaviour,System.String,System.Collections.Generic.List{KerbinHeavyIndustries.ELEditor.UpdateDelegate})">
+            Find the named update method and add a delegate to the list.
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.RunStarters">
+            Run all the collected Start methods.
+            
+             Both Starters and CRStarters will be empty on completion.
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.EditShip(ShipConstruct)">
+            Enable (create if necessary) the editor
+            
+             Disables all modules (including Part) and removes all colliders
+             from the parts in ship. This means that Unity will not call Start
+             or any of the update routines on the parts or their part modules.
+        </member>
+        <member name="M:KerbinHeavyIndustries.ELEditor.ClearShip">
+            Disable the editor and destroy the ship and its parts
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.ToolbarManager">
+            <summary>
+            The global tool bar manager.
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.ToolbarManager.ToolbarAvailable">
+            <summary>
+            Whether the Toolbar Plugin is available.
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.ToolbarManager.Instance">
+            <summary>
+            The global tool bar manager instance.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.IToolbarManager">
+            <summary>
+            A toolbar manager.
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.IToolbarManager.add(System.String,System.String)">
+            <summary>
+            Adds a new button.
+            </summary>
+            <remarks>
+            To replace an existing button, just add a new button using the old button's namespace and ID.
+            Note that the new button will inherit the screen position of the old button.
+            </remarks>
+            <param name="ns">The new button's namespace. This is usually the plugin's name. Must not include special characters like '.'</param>
+            <param name="id">The new button's ID. This ID must be unique across all buttons in the namespace. Must not include special characters like '.'</param>
+            <returns>The button created.</returns>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.IButton">
+            <summary>
+            Represents a clickable button.
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Text">
+            <summary>
+            The text displayed on the button. Set to null to hide text.
+            </summary>
+            <remarks>
+            The text can be changed at any time to modify the button's appearance. Note that since this will also
+            modify the button's size, this feature should be used sparingly, if at all.
+            </remarks>
+            <seealso cref="P:KerbinHeavyIndustries.Toolbar.IButton.TexturePath"/>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.TextColor">
+            <summary>
+            The color the button text is displayed with. Defaults to Color.white.
+            </summary>
+            <remarks>
+            The text color can be changed at any time to modify the button's appearance.
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.TexturePath">
+            <summary>
+            The path of a texture file to display an icon on the button. Set to null to hide icon.
+            </summary>
+            <remarks>
+            <para>
+            A texture path on a button will have precedence over text. That is, if both text and texture path
+            have been set on a button, the button will show the texture, not the text.
+            </para>
+            <para>
+            The texture size must not exceed 24x24 pixels.
+            </para>
+            <para>
+            The texture path must be relative to the "GameData" directory, and must not specify a file name suffix.
+            Valid example: MyAddon/Textures/icon_mybutton
+            </para>
+            <para>
+            The texture path can be changed at any time to modify the button's appearance.
+            </para>
+            </remarks>
+            <seealso cref="P:KerbinHeavyIndustries.Toolbar.IButton.Text"/>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.ToolTip">
+            <summary>
+            The button's tool tip text. Set to null if no tool tip is desired.
+            </summary>
+            <remarks>
+            Tool Tip Text Should Always Use Headline Style Like This.
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Visible">
+            <summary>
+            Whether this button is currently visible or not. Can be used in addition to or as a replacement for <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visibility"/>.
+            </summary>
+            <remarks>
+            Setting this property to true does not affect the player's ability to hide the button using the configuration.
+            Conversely, setting this property to false does not enable the player to show the button using the configuration.
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Visibility">
+            <summary>
+            Determines this button's visibility. Can be used in addition to or as a replacement for <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visible"/>.
+            </summary>
+            <remarks>
+            The return value from IVisibility.Visible is subject to the same rules as outlined for
+            <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visible"/>.
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.EffectivelyVisible">
+            <summary>
+            Whether this button is currently effectively visible or not. This is a combination of
+            <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visible"/> and <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visibility"/>.
+            </summary>
+            <remarks>
+            Note that the toolbar is not visible in certain game scenes, for example the loading screens. This property
+            does not reflect button invisibility in those scenes. In addition, this property does not reflect the
+            player's configuration of the button's visibility.
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Enabled">
+            <summary>
+            Whether this button is currently enabled (clickable) or not. This does not affect the player's ability to
+            position the button on their toolbar.
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Important">
+            <summary>
+            Whether this button is currently "important." Set to false to return to normal button behaviour.
+            </summary>
+            <remarks>
+            <para>
+            This can be used to temporarily force the button to be shown on screen regardless of the toolbar being
+            currently in auto-hidden mode. For example, a button that signals the arrival of a private message in
+            a chat room could mark itself as "important" as long as the message has not been read.
+            </para>
+            <para>
+            Setting this property does not change the appearance of the button. Use <see cref="P:KerbinHeavyIndustries.Toolbar.IButton.TexturePath"/> to
+            change the button's icon.
+            </para>
+            <para>
+            Setting this property to true does not affect the player's ability to hide the button using the
+            configuration.
+            </para>
+            <para>
+            This feature should be used only sparingly, if at all, since it forces the button to be displayed on
+            screen even when it normally wouldn't.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IButton.Drawable">
+            <summary>
+            A drawable that is tied to the current button. This can be anything from a popup menu to
+            an informational window. Set to null to hide the drawable.
+            </summary>
+        </member>
+        <member name="E:KerbinHeavyIndustries.Toolbar.IButton.OnClick">
+            <summary>
+            Event handler that can be registered with to receive "on click" events.
+            </summary>
+            <example>
+            <code>
+            IButton button = ...
+            button.OnClick += (e) => {
+            	Debug.Log("button clicked, mouseButton: " + e.MouseButton);
+            };
+            </code>
+            </example>
+        </member>
+        <member name="E:KerbinHeavyIndustries.Toolbar.IButton.OnMouseEnter">
+            <summary>
+            Event handler that can be registered with to receive "on mouse enter" events.
+            </summary>
+            <example>
+            <code>
+            IButton button = ...
+            button.OnMouseEnter += (e) => {
+            	Debug.Log("mouse entered button");
+            };
+            </code>
+            </example>
+        </member>
+        <member name="E:KerbinHeavyIndustries.Toolbar.IButton.OnMouseLeave">
+            <summary>
+            Event handler that can be registered with to receive "on mouse leave" events.
+            </summary>
+            <example>
+            <code>
+            IButton button = ...
+            button.OnMouseLeave += (e) => {
+            	Debug.Log("mouse left button");
+            };
+            </code>
+            </example>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.IButton.Destroy">
+            <summary>
+            Permanently destroys this button so that it is no longer displayed.
+            Should be used when a plugin is stopped to remove leftover buttons.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.IDrawable">
+            <summary>
+            A drawable that is tied to a particular button. This can be anything from a popup menu
+            to an informational window.
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.IDrawable.Update">
+            <summary>
+            Update any information. This is called once per frame.
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.IDrawable.Draw(UnityEngine.Vector2)">
+            <summary>
+            Draws GUI widgets for this drawable. This is the equivalent to the OnGUI() message in
+            <see cref="T:UnityEngine.MonoBehaviour"/>.
+            </summary>
+            <remarks>
+            The drawable will be positioned near its parent toolbar according to the drawable's current
+            width/height.
+            </remarks>
+            <param name="position">The left/top position of where to draw this drawable.</param>
+            <returns>The current width/height of this drawable.</returns>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.ClickEvent">
+            <summary>
+            Event describing a click on a button.
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries.Toolbar.ClickEvent.Button">
+            <summary>
+            The button that has been clicked.
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries.Toolbar.ClickEvent.MouseButton">
+            <summary>
+            The mouse button which the button was clicked with.
+            </summary>
+            <remarks>
+            Is 0 for left mouse button, 1 for right mouse button, and 2 for middle mouse button.
+            </remarks>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.ClickHandler">
+            <summary>
+            An event handler that is invoked whenever a button has been clicked.
+            </summary>
+            <param name="e">An event describing the button click.</param>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.MouseMoveEvent">
+            <summary>
+            Event describing the mouse pointer moving about a button.
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries.Toolbar.MouseMoveEvent.button">
+            <summary>
+            The button in question.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.MouseEnterEvent">
+            <summary>
+            Event describing the mouse pointer entering a button's area.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.MouseLeaveEvent">
+            <summary>
+            Event describing the mouse pointer leaving a button's area.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.MouseEnterHandler">
+            <summary>
+            An event handler that is invoked whenever the mouse pointer enters a button's area.
+            </summary>
+            <param name="e">An event describing the mouse pointer entering.</param>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.MouseLeaveHandler">
+            <summary>
+            An event handler that is invoked whenever the mouse pointer leaves a button's area.
+            </summary>
+            <param name="e">An event describing the mouse pointer leaving.</param>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.IVisibility">
+            <summary>
+            Determines visibility of a button.
+            </summary>
+            <seealso cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visibility"/>
+        </member>
+        <member name="P:KerbinHeavyIndustries.Toolbar.IVisibility.Visible">
+            <summary>
+            Whether a button is currently visible or not.
+            </summary>
+            <seealso cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visible"/>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.GameScenesVisibility">
+            <summary>
+            Determines visibility of a button in relation to the currently running game scene.
+            </summary>
+            <example>
+            <code>
+            IButton button = ...
+            button.Visibility = new GameScenesVisibility(GameScenes.EDITOR, GameScenes.FLIGHT);
+            </code>
+            </example>
+            <seealso cref="P:KerbinHeavyIndustries.Toolbar.IButton.Visibility"/>
+        </member>
+        <member name="T:KerbinHeavyIndustries.Toolbar.PopupMenuDrawable">
+            <summary>
+            A drawable that draws a popup menu.
+            </summary>
+        </member>
+        <member name="E:KerbinHeavyIndustries.Toolbar.PopupMenuDrawable.OnAnyOptionClicked">
+            <summary>
+            Event handler that can be registered with to receive "any menu option clicked" events.
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.PopupMenuDrawable.AddOption(System.String)">
+            <summary>
+            Adds a new option to the popup menu.
+            </summary>
+            <param name="text">The text of the option.</param>
+            <returns>A button that can be used to register clicks on the menu option.</returns>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.PopupMenuDrawable.AddSeparator">
+            <summary>
+            Adds a separator to the popup menu.
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries.Toolbar.PopupMenuDrawable.Destroy">
+            <summary>
+            Destroys this drawable. This must always be called before disposing of this drawable.
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries_KACWrapper.KACWrapper">
+            <summary>
+            The Wrapper class to access KAC from another plugin
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries_KACWrapper.KACWrapper.KAC">
+            <summary>
+            This is the Kerbal Alarm Clock object
+            
+            SET AFTER INIT
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.AssemblyExists">
+            <summary>
+            Whether we found the KerbalAlarmClock assembly in the loadedassemblies. 
+            
+            SET AFTER INIT
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.InstanceExists">
+            <summary>
+            Whether we managed to hook the running Instance from the assembly. 
+            
+            SET AFTER INIT
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries_KACWrapper.KACWrapper._KACWrapped">
+            <summary>
+            Whether we managed to wrap all the methods/functions from the instance. 
+            
+            SET AFTER INIT
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.APIReady">
+            <summary>
+            Whether the object has been wrapped and the APIReady flag is set in the real KAC
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.InitKACWrapper">
+            <summary>
+            This method will set up the KAC object and wrap all the methods/functions
+            </summary>
+            <param name="Force">This option will force the Init function to rebind everything</param>
+            <returns></returns>
+        </member>
+        <member name="T:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI">
+            <summary>
+            The Type that is an analogue of the real KAC. This lets you access all the API-able properties and Methods of the KAC
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.APIReady">
+            <summary>
+            Whether the APIReady flag is set in the real KAC
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.Alarms">
+            <summary>
+            The list of Alarms that are currently active in game
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.ExtractAlarmList(System.Object)">
+            <summary>
+            This converts the KACAlarmList actual object to a new List for consumption
+            </summary>
+            <param name="actualAlarmList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AddHandler(System.Reflection.EventInfo,System.Object,System.Action{System.Object})">
+            <summary>
+            Takes an EventInfo and binds a method to the event firing
+            </summary>
+            <param name="Event">EventInfo of the event we want to attach to</param>
+            <param name="KACObject">actual object the eventinfo is gathered from</param>
+            <param name="Handler">Method that we are going to hook to the event</param>
+        </member>
+        <member name="E:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.onAlarmStateChanged">
+            <summary>
+            Event that fires when the State of an Alarm changes
+            </summary>
+        </member>
+        <member name="T:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmStateChangedHandler">
+            <summary>
+            Structure of the event delegeate
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmStateChangedEventArgs">
+            <summary>
+            This is the structure that holds the event arguments
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmStateChangedEventArgs.alarm">
+            <summary>
+            Alarm that has had the state change
+            </summary>
+        </member>
+        <member name="F:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmStateChangedEventArgs.eventType">
+            <summary>
+            What the state was before the event
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmStateChanged(System.Object)">
+            <summary>
+            private function that grabs the actual event and fires our wrapped one
+            </summary>
+            <param name="actualEvent">actual event from the KAC</param>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.CreateAlarm(KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmTypeEnum,System.String,System.Double)">
+            <summary>
+            Create a new Alarm
+            </summary>
+            <param name="AlarmType">What type of alarm are we creating</param>
+            <param name="Name">Name of the Alarm for the display</param>
+            <param name="UT">Universal Time for the alarm</param>
+            <returns>ID of the newly created alarm</returns>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.DeleteAlarm(System.String)">
+            <summary>
+            Delete an Alarm
+            </summary>
+            <param name="AlarmID">Unique ID of the alarm</param>
+            <returns>Success of the deletion</returns>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.DrawAlarmActionChoice(KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.AlarmActionEnum@,System.String,System.Int32,System.Int32)">
+            <summary>
+            Delete an Alarm
+            </summary>
+            <param name="AlarmID">Unique ID of the alarm</param>
+            <returns>Success of the deletion</returns>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.VesselID">
+            <summary>
+            Unique Identifier of the Vessel that the alarm is attached to
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.ID">
+            <summary>
+            Unique Identifier of this alarm
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.Name">
+            <summary>
+            Short Text Name for the Alarm
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.Notes">
+            <summary>
+            Longer Text Description for the Alarm
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.XferOriginBodyName">
+            <summary>
+            Name of the origin body for a transfer
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.XferTargetBodyName">
+            <summary>
+            Name of the destination body for a transfer
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.AlarmType">
+            <summary>
+            What type of Alarm is this - affects icon displayed and some calc options
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.AlarmTime">
+            <summary>
+            In game UT value of the alarm
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.AlarmMargin">
+            <summary>
+            In game seconds the alarm will fire before the event it is for
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.AlarmAction">
+            <summary>
+            What should the Alarm Clock do when the alarm fires
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.Remaining">
+            <summary>
+            How much Game time is left before the alarm fires
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.RepeatAlarm">
+            <summary>
+            Whether the alarm will be repeated after it fires
+            </summary>
+        </member>
+        <member name="P:KerbinHeavyIndustries_KACWrapper.KACWrapper.KACAPI.KACAlarm.RepeatAlarmPeriod">
+            <summary>
+            Value in Seconds after which the alarm will repeat
+            </summary>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.LogFormatted_DebugOnly(System.String,System.Object[])">
+            <summary>
+            Some Structured logging to the debug file - ONLY RUNS WHEN DLL COMPILED IN DEBUG MODE
+            </summary>
+            <param name="Message">Text to be printed - can be formatted as per String.format</param>
+            <param name="strParams">Objects to feed into a String.format</param>
+        </member>
+        <member name="M:KerbinHeavyIndustries_KACWrapper.KACWrapper.LogFormatted(System.String,System.Object[])">
+            <summary>
+            Some Structured logging to the debug file
+            </summary>
+            <param name="Message">Text to be printed - can be formatted as per String.format</param>
+            <param name="strParams">Objects to feed into a String.format</param>
+        </member>
+        <member name="M:KodeUI.UIObject.Anchor(KodeUI.AnchorPresets)">
+            <summary>
+            Must be set prior to width/height
+            </summary>
+            <param name="anchor"></param>
+            <returns></returns>
+        </member>
+        <member name="T:UnityExtensions">
+            <summary>
+            Putting these in the global namespace so that they can be accessed from anywhere in the game without importing
+            </summary>
+        </member>
+        <member name="M:UnityExtensions.Has``1(UnityEngine.GameObject)">
+            <summary>
+            A shorter way of testing if a game object has a component
+            </summary>
+            <typeparam name="T">Component type</typeparam>
+            <param name="obj">The object to check on</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Get``1(UnityEngine.GameObject)">
+            <summary>
+            A slightly shorter way to get a component from an object
+            </summary>
+            <typeparam name="T">Component type</typeparam>
+            <param name="obj">The object to get from</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.GetAll``1(UnityEngine.GameObject)">
+            <summary>
+            A slightly shorter way to get a component from an object
+            </summary>
+            <typeparam name="T">Component type</typeparam>
+            <param name="obj">The object to get from</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:UnityExtensions.Has``1(UnityEngine.Component)" -->
+        <member name="M:UnityExtensions.Get``1(UnityEngine.Component)">
+            <summary>
+            A slightly shorter way to get a component from an object
+            </summary>
+            <typeparam name="T">Component type</typeparam>
+            <param name="obj">The component to get from</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.GetAll``1(UnityEngine.Component)">
+            <summary>
+            A slightly shorter way to get a component from an object
+            </summary>
+            <typeparam name="T">Component type</typeparam>
+            <param name="obj">The component to get from</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.HasComponentOrInterface``1(UnityEngine.GameObject)">
+            <summary>
+            Checks to see if the game object has a component, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of component to check for (can be an interface)</typeparam>
+            <returns>Whether the object has the component</returns>
+        </member>
+        <member name="M:UnityExtensions.GetComponentOrInterface``1(UnityEngine.GameObject)">
+            <summary>
+            Gets a component on a game object, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of component to check for (can be an interface)</typeparam>
+            <param name="inObj"></param>
+            <returns>The component, null if it doesnt exist</returns>
+        </member>
+        <member name="M:UnityExtensions.GetAllComponentsOrInterfaces``1(UnityEngine.GameObject)">
+            <summary>
+            Gets all components of a given type, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+            <returns>Enumerable of components</returns>
+        </member>
+        <member name="M:UnityExtensions.GetAllComponentsOrInterfacesInChildren``1(UnityEngine.GameObject)">
+            <summary>
+            Gets all components of a given type including children, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+            <returns>Enumerable of components</returns>
+        </member>
+        <member name="M:UnityExtensions.HasComponentOrInterface``1(UnityEngine.Component)">
+            <summary>
+            Checks to see if the game object has a component, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of component to check for (can be an interface)</typeparam>
+            <returns>Whether the object has the component</returns>
+        </member>
+        <member name="M:UnityExtensions.GetComponentOrInterface``1(UnityEngine.Component)">
+            <summary>
+            Checks to see if the game object this component belongs to has a component, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of component to check for (can be an interface)</typeparam>
+            <returns>Whether the object has the component</returns>
+        </member>
+        <member name="M:UnityExtensions.GetAllComponentsOrInterfaces``1(UnityEngine.Component)">
+            <summary>
+            Gets all components of a given type, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+            <returns>Enumerable of components</returns>
+        </member>
+        <member name="M:UnityExtensions.GetAllComponentsOrInterfacesInChildren``1(UnityEngine.Component)">
+            <summary>
+            Gets all components of a given type in itself and the children, accepts interfaces
+            </summary>
+            <typeparam name="T">Type of components to get (accepts interfaces)</typeparam>
+            <returns>Enumerable of components</returns>
+        </member>
+        <member name="M:UnityExtensions.AddChild``1(UnityEngine.GameObject)">
+            <summary>
+            A shortcut for creating a new game object then adding a component then adding it to a parent object
+            </summary>
+            <typeparam name="T">Type of component</typeparam>
+            <returns>The new component</returns>
+        </member>
+        <member name="M:UnityExtensions.AddChild(UnityEngine.GameObject,UnityEngine.GameObject,System.Boolean)">
+            <summary>
+            A shortcut for adding a given game object as a child
+            </summary>
+            <returns>This gameobject</returns>
+        </member>
+        <member name="M:UnityExtensions.AddChild``1(UnityEngine.GameObject,System.String)">
+            <summary>
+            A shortcut for creating a new game object then adding a component then adding it to a parent object
+            </summary>
+            <typeparam name="T">Type of component</typeparam>
+            <param name="name">Name of the child game object</param>
+            <returns>The new component</returns>
+        </member>
+        <member name="M:UnityExtensions.AddChild(UnityEngine.GameObject,System.Type[])">
+            <summary>
+            A shortcut for creating a new game object with a number of components and adding it as a child
+            </summary>
+            <param name="components">A list of component types</param>
+            <returns>The new game object</returns>
+        </member>
+        <member name="M:UnityExtensions.AddChild(UnityEngine.GameObject,System.String,System.Type[])">
+            <summary>
+            A shortcut for creating a new game object with a number of components and adding it as a child
+            </summary>
+            <param name="name">The name of the new game object</param>
+            <param name="components">A list of component types</param>
+            <returns>The new game object</returns>
+        </member>
+        <member name="M:UnityExtensions.LoadChild(UnityEngine.GameObject,System.String)">
+            <summary>
+            Loads a resource and adds it as a child
+            </summary>
+            <param name="resourcePath">The path to the resource to load</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.LoadChild(UnityEngine.Transform,System.String)">
+            <summary>
+            Loads a resource and adds it as a child
+            </summary>
+            <param name="resourcePath">The path to the resource to load</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.DestroyAllChildrenImmediately(UnityEngine.GameObject)">
+            <summary>
+            Destroys all the children of a given gameobject
+            </summary>
+            <param name="obj">The parent game object</param>
+        </member>
+        <member name="M:UnityExtensions.DestroyAllChildrenImmediately(UnityEngine.Transform)">
+            <summary>
+            Destroys all the children of a given transform
+            </summary>
+            <param name="obj">The parent transform</param>
+        </member>
+        <member name="M:UnityExtensions.FocusOn2D(UnityEngine.Camera,UnityEngine.GameObject)">
+            <summary>
+            Focuses the camera on a point in 2D space (just transforms the x and y to match the target)
+            </summary>
+            <param name="camera"></param>
+            <param name="gameObject"></param>
+        </member>
+        <member name="M:UnityExtensions.ToUInt(UnityEngine.Color)">
+            <summary>
+            Converts a uint to a color
+            </summary>
+            <param name="color">The uint to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToColor32(System.UInt32)">
+            <summary>
+            Converts a uint to a color32
+            </summary>
+            <param name="color">The uint to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToColor(System.UInt32)">
+            <summary>
+            Converts a uint to a color
+            </summary>
+            <param name="color">The uint to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToHex(UnityEngine.Color32)">
+            <summary>
+            Converts a color to its hex counterpart
+            </summary>
+            <param name="color">The color to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToReadableString(System.TimeSpan)">
+            <summary>
+            Converts a timespan to a readable format
+            </summary>
+            <param name="span"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToReadableStringShortForm(System.TimeSpan)">
+            <summary>
+            Converts a timespan to a readable format but in a shorter form
+            </summary>
+            <param name="span"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.RandomOne``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Randomly picks one elements from the enumerable
+            </summary>
+            <typeparam name="T">The type of the item</typeparam>
+            <param name="items">The items to random from</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.WeightedRandomOne``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Single})">
+            <summary>
+            Borrowed from http://stackoverflow.com/questions/56692/random-weighted-choice
+            Randomly picks one element from the enumerable, taking into account a weight
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sequence"></param>
+            <param name="weightSelector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.DebugLog``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object})">
+            <summary>
+            Loops over each item in the list and logs out a particular value, handy for debugging!
+            </summary>
+            <typeparam name="T">The type of the item</typeparam>
+            <param name="items">The list of items</param>
+            <param name="objectToLog">A callback in which you will return the item to log</param>
+            <returns>The original input list</returns>
+        </member>
+        <member name="M:UnityExtensions.AddOnce(UnityEngine.Events.UnityEvent,System.Action)">
+            <summary>
+            Adds a listner to a UnityEvent which is removed as soon as the event is invoked
+            </summary>
+            <param name="evnt">the event to listen for</param>
+            <param name="callback">the callback to call</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.AddOnce``1(UnityEngine.Events.UnityEvent{``0},System.Action{``0})">
+            <summary>
+            Adds a listner to a UnityEvent which is removed as soon as the event is invoked
+            </summary>
+            <param name="evnt">the event to listen for</param>
+            <param name="callback">the callback to call</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.OrthographicBounds(UnityEngine.Camera)">
+            <summary>
+            Returns the orthographic bounds for a camera 
+            !! NOT UNIT TESTED !!
+            Borrowed from: http://answers.unity3d.com/questions/501893/calculating-2d-camera-bounds.html
+            </summary>
+            <param name="camera">the camera to get the bounds on</param>
+            <returns>the orthographic bounds on a camera</returns>
+        </member>
+        <member name="M:UnityExtensions.Intersects2(UnityEngine.Bounds,UnityEngine.Bounds)">
+            <summary>
+            Tests if two bounds intersect. This is neccessary as there appears to be a bug with normal Bounds Intersection.
+            !! NOT UNIT TESTED !!
+            </summary>
+            <param name="a">First bound</param>
+            <param name="b">Second bound</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Clone(UnityEngine.Vector3)">
+            <summary>
+            A simple clone method for a Vector3
+            </summary>
+            <param name="v">The vector to clone</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Clone(UnityEngine.Vector2)">
+            <summary>
+            A simple clone method for a Vector2
+            </summary>
+            <param name="v">The vector to clone</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToVector3(UnityEngine.Vector2)">
+            <summary>
+            Simple method to turn a v2 into a v3
+            </summary>
+            <param name="v">The vector to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.ToVector2(UnityEngine.Vector3)">
+            <summary>
+            Simple method to turn a v3 into a v2
+            </summary>
+            <param name="v">The vector to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.SetX(UnityEngine.Vector2,System.Single)">
+            <summary>
+            Simple method to set the x value on the Vector2, returns a new Vector2
+            </summary>
+            <param name="v">the vector</param>
+            <param name="x">the x value to set</param>
+        </member>
+        <member name="M:UnityExtensions.SetY(UnityEngine.Vector2,System.Single)">
+            <summary>
+            Simple method to set the y value on the Vector2, returns a new Vector2
+            </summary>
+            <param name="v">the vector</param>
+            <param name="x">the y value to set</param>
+        </member>
+        <member name="M:UnityExtensions.Randomise``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Takes a list, creates a copy and returns the newly shuffled list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+        </member>
+        <member name="M:UnityExtensions.SetX(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Simple method to set the x value on the Vector3, returns a new vector3
+            </summary>
+            <param name="v">the vector</param>
+            <param name="x">the x value to set</param>
+        </member>
+        <member name="M:UnityExtensions.SetY(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Simple method to set the y value on the Vector3, returns a new vector3
+            </summary>
+            <param name="v">the vector</param>
+            <param name="x">the y value to set</param>
+        </member>
+        <member name="M:UnityExtensions.SetZ(UnityEngine.Vector3,System.Single)">
+            <summary>
+            Simple method to set the z value on the Vector3, returns a new vector3
+            </summary>
+            <param name="v">the vector</param>
+            <param name="x">the z value to set</param>
+        </member>
+        <member name="M:UnityExtensions.ToRect(UnityEngine.Bounds)">
+            <summary>
+            NOT TESTED !!
+            Converts a 3D bounds to a 2D rect
+            </summary>
+            <param name="b">The bounds to convert</param>
+            <returns>the rect</returns>
+        </member>
+        <member name="M:UnityExtensions.Instantiate(UnityEngine.GameObject)">
+            <summary>
+            Instantiates an instance of this prefab
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Instantiate``1(UnityEngine.GameObject)">
+            <summary>
+            Instantiates an instance of this prefab and retuns a component on it
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Deactivate(UnityEngine.Component)">
+            <summary>
+            Deactivates the gameobject this component is attached to
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.Activate(UnityEngine.Component)">
+            <summary>
+            Activate the gameobject this component is attached to
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.LoadAllAsChildren``1(UnityEngine.GameObject,System.String)">
+            <summary>
+            Loads all the objects in a given path, instantiates them then adds them as children
+            </summary>
+            <typeparam name="T">The type of the child to return</typeparam>
+            <param name="parentObject">The parent object to add the children to</param>
+            <param name="prefabsPath">The path from which to load the prefabs</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityExtensions.IsParentedBy(UnityEngine.GameObject,UnityEngine.GameObject)">
+            <summary>
+            Recursively looks up the tree to see if this object is parents by the supplied
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityHelpers.UnityUtils.CopyComponent(UnityEngine.Component,UnityEngine.GameObject,System.Type,System.Collections.Generic.List{System.Type})">
+            <summary>
+            Copies a component using reflection into a destination. 
+            Borrowed from: http://answers.unity3d.com/questions/458207/copy-a-component-at-runtime.html
+            </summary>
+            <param name="original">The original component to copy from</param>
+            <param name="destination">The destination object to copy the componet to</param>
+            <param name="illegalDeclaringTypes">A List of declaring types from which the property or field should not be copied from</param>
+            <param name="illegalDeclaringTypes">If attribute is defined on property then ignore property</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityHelpers.UnityUtils.Wrap(System.Single,System.Int32,System.Int32)">
+            <summary>
+            NOT TESTED!
+            Wraps a given float around between a lower and upper bound
+            </summary>
+            <param name="value">the value to wrap</param>
+            <param name="lower">the lower bound</param>
+            <param name="upper">the upper bound</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnityHelpers.UnityUtils.FindAllComponentsOrInterfaces``1">
+            <summary>
+            NOT TESTED!
+            Finds all objects in the game that match the given type be it an object or interface
+            </summary>
+            <typeparam name="T">The type to search for</typeparam>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

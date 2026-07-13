@@ -1,0 +1,72 @@
+values {
+	mass = ${math.floor(7.8 * modelSkinVolume * 1000 + 0.5)/1000}
+	capacity = ${math.floor((modelExtVolume-modelSkinVolume) * 1000)/1000}
+	resourceCapacity = ${math.floor(capacity*200)}
+}
+PART
+{
+	name = ELMicroPad
+	module = Part
+	author = Bill Currie
+
+	MODEL {
+		model = KerbinHeavyIndustries/Parts/MicroPad/MicroPad
+		position = 0, 0, 0
+		rotation = 0, 0, 0
+		scale = 1, 1, 1
+	}
+	rescaleFactor = 1.0
+	scale = 1.0
+
+	bulkheadProfiles = size1, srf
+
+
+	TechRequired = advConstruction
+	entryCost = 400
+	cost = ${mass * 600 * 2.5}
+	category = Utility
+	title = #EL_ELMicroPad_title // KS-MP Disposable Pad
+	manufacturer = Kairyuu Shipping
+	description = #EL_ELMicroPad_desc // Mark where built modules will be permanently attached to the construting vessel. The build replaces the pad. The built module must have a free stack node on its root part (top or bottom, top takes priority if both are available).
+	tags = cck-el
+
+	// attachment rules: stack, srfAttach, allowStack, allowSrfAttach, allowCollision
+	attachRules = 1,1,1,1,0
+
+	mass = ${mass}
+	dragModelType = default
+	maximum_drag = 0.2
+	minimum_drag = 0.15
+	angularDrag = 2
+	crashTolerance = 8
+	breakingForce = 200
+	breakingTorque = 200
+	maxTemp = 1700
+	heatConductivity = 0.12
+	skinInternalConductionMult = 1
+	emissiveConstant = 0.4
+
+	MODULE {
+		name = ELDisposablePad
+		SpawnTransform = SpawnTransform
+		EVARange = 1.5
+	}
+	MODULE {
+		name = ModuleKISItemEvaTweaker
+		carriable = true
+		equipMode = part
+		equipSlot = jetpack
+        equipBoneName = aliasJetpack
+		equipPos = (0,0.36,-0.05)
+		equipDir = (-80,0,0)
+		runSpeed = 0.8
+	}
+
+    MODULE {
+        name = ModuleCargoPart
+        packedVolume = ${math.ceil(modelExtVolume * 1000)}
+    }
+}
+@PART[ELMicroPad]:FOR[KerbinHeavyIndustries]:NEEDS[KIS] {
+	-MODULE[ModuleCargoPart] { }
+}
