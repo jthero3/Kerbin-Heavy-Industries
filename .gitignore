@@ -9,4 +9,4 @@ EL.version
 KSP/
 .vs/
 
-./src/KerbinHeavyIndustries/bin/
+src/KerbinHeavyIndustries/bin/
