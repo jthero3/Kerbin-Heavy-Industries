@@ -1147,7 +1147,15 @@ namespace KerbinHeavyIndustries {
 					part.Modules.Remove(kos);
 				}
 			}
-		}
+            if (part.Modules.Contains("ModuleCargoPart"))
+            {
+                var cargo = part.Modules["ModuleCargoPart"];
+                if (cargo != null)
+                {
+                    part.Modules.Remove(cargo);
+                }
+            }
+        }
 
 		void RemoveFX(Part part)
 		{
