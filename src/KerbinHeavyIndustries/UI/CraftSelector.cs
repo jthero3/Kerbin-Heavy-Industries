@@ -171,15 +171,23 @@ namespace KerbinHeavyIndustries {
 		string basePath;
 
 		void pipelineSucceed (ConfigNode node, ELCraftItem craft)
-		{
-			if (node != craft.node) {
-				craft.node.Save (craft.fullPath + ".original");
-				node.Save (craft.fullPath);
-			}
-			OnFileSelected (selectedCraft.fullPath, selectedCraft.thumbPath, selectedCraft.type);
-		}
+        {
+            if (node != craft.node)
+            {
+                // fullPath may be a leading-slash root-relative path (/Ships/VAB/..)
+                // which Save() resolves to C:\Ships\.. — root it to the game dir first.
+                string savePath = craft.fullPath;
+                if (!Path.IsPathRooted(savePath) || savePath.StartsWith("/") || savePath.StartsWith("\\"))
+                {
+                    savePath = Path.Combine(KSPUtil.ApplicationRootPath, savePath.TrimStart('/', '\\'));
+                }
+                craft.node.Save(savePath + ".original");
+                node.Save(savePath);
+            }
+            OnFileSelected(selectedCraft.fullPath, selectedCraft.thumbPath, selectedCraft.type);
+        }
 
-		void pipelineFail (KSPUpgradePipeline.UpgradeFailOption opt, ConfigNode node, ELCraftItem craft)
+        void pipelineFail (KSPUpgradePipeline.UpgradeFailOption opt, ConfigNode node, ELCraftItem craft)
 		{
 			if (opt == KSPUpgradePipeline.UpgradeFailOption.Cancel) {
 				OnBrowseCancelled ();

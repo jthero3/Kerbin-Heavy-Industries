@@ -1,0 +1,51 @@
+//
+// KeridianDynamics
+// created: 31 Mar 2020
+// updated: 10 Jun 2021
+
+// from TonkaCrash
+
+EL_ConverterRecipe
+{
+    // This is used in the chemical reactor for recombining C02 and H20 into
+    // Liquid Fuel and O2
+    //
+    // LiquidFuel is assumed to be RP-1 which is further assumed to be C12H16
+    // and thus is 160.25544g/mol
+    //
+    // Carbon Dioxide (CO2) 44.0095g/mol
+    // Water (H2O) 18.01528g/mol.
+    // Liquid Fuel (C12H16) 160.25544g/mol
+    // Oxidizer (O2) = 31.9988g
+    //
+    // This gives the following reaction:
+    //   36C02 + 24H20 -> 3C12H16 + 4802
+    //
+    // With the following masses:
+    //
+    // Input:
+    //     H2O = 432.3667g
+    //     CO2 = 1584.342g
+    //
+    // Output:
+    //     C12H16 = 480.7663g
+    //	   O2 = 31.9988g
+    //
+    name = LFOReclamation
+    Input
+    {
+        efficiency = 1.0
+        ElectricCharge = 100.000
+        Water = 432.36672
+        CarbonDioxide = 1584.342
+    }
+    Output
+    {
+        efficiency = 1.0
+        LiquidFuel = 480.76632
+	Oxidizer* = 1535.904
+    }
+}
+
+// CC BY-SA 4.0
+// zer0Kerbal
